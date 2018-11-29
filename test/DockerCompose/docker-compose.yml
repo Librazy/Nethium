@@ -1,0 +1,158 @@
+version: '3.4'
+
+services:
+  web1:
+    image: ${DOCKER_REGISTRY-}nethiumconsultestweb
+    restart: always
+    networks:
+      - consul-demo
+    build:
+      context: ../..
+      dockerfile: test/Nethium.Demo.Web/Dockerfile
+    depends_on:
+      - agent1
+      - agent2
+      - agent3
+      - server1
+      - server2
+      - bootstrap
+    ports:
+      - "44301:443"
+      - "8081:80"
+    volumes:
+      - ./certs:/certs
+      - ./server_configs/s1.json:/app/nethium.json
+      - ./server_configs/s1.json:/app/bin/Debug/netcoreapp2.2/nethium.json
+    environment:
+      - DOCKERIZE_ARGS=-wait-retry-interval 10s -timeout 60s -wait http://agent1:8500/v1/status/leader -wait http://agent2:8500/v1/status/leader -wait http://agent3:8500/v1/status/leader
+    # command: "tail -f /dev/null"
+
+  web2:
+    image: ${DOCKER_REGISTRY-}nethiumconsultestweb2
+    restart: always
+    networks:
+      - consul-demo
+    build:
+      context: ../..
+      dockerfile: test/Nethium.Demo.Web2/Dockerfile
+    depends_on:
+      - agent1
+      - agent2
+      - agent3
+      - server1
+      - server2
+      - bootstrap
+    ports:
+      - "44302:443"
+      - "8082:80"
+    volumes:
+      - ./certs:/certs
+      - ./server_configs/s2.json:/app/nethium.json
+      - ./server_configs/s2.json:/app/bin/Debug/netcoreapp3.0/nethium.json
+    environment:
+      - DOCKERIZE_ARGS=-wait-retry-interval 10s -timeout 60s -wait http://agent1:8500/v1/status/leader -wait http://agent2:8500/v1/status/leader -wait http://agent3:8500/v1/status/leader
+    # command: "tail -f /dev/null"
+
+  web3: &web3
+    image: ${DOCKER_REGISTRY-}nethiumconsultestweb3
+    restart: always
+    networks:
+      - consul-demo
+    build:
+      context: ../..
+      dockerfile: test/Nethium.Demo.Web3/Dockerfile
+    depends_on:
+      - agent1
+      - agent2
+      - agent3
+      - server1
+      - server2
+      - bootstrap
+    ports:
+      - "44303:443"
+      - "8083:80"
+    volumes:
+      - ./certs:/certs
+      - ./server_configs/s3.json:/app/nethium.json
+      - ./server_configs/s3.json:/app/bin/Debug/netcoreapp3.0/nethium.json
+    environment:
+      - DOCKERIZE_ARGS=-wait-retry-interval 10s -timeout 60s -wait http://agent1:8500/v1/status/leader -wait http://agent2:8500/v1/status/leader -wait http://agent3:8500/v1/status/leader
+      - NETHIUM_Nethium__Consul__Watch=settings/version
+      - NETHIUM_Nethium__Consul__Address=http://agent3:8500
+      - NETHIUM_Nethium__ServerId=server-3
+      - NETHIUM_Nethium__BaseUrl=http://web3
+
+    # command: "tail -f /dev/null"
+   
+  # web4:
+  #   <<: *web3
+  #   ports:
+  #     - "44304:443"
+  #     - "8084:80"
+  #   volumes:
+  #     - ./certs:/certs
+  #     - ./server_configs/s4.json:/app/nethium.json
+  #     - ./server_configs/s4.json:/app/bin/Debug/netcoreapp3.0/nethium.json
+
+  agent1: &consul-agent
+    image: consul:latest
+    restart: always
+    networks:
+      consul-demo:
+        ipv4_address: 172.28.1.1
+    command: "agent -retry-join bootstrap -retry-interval 5s -client 0.0.0.0"
+    volumes:
+      - ./consul_data/a1:/consul/data
+
+  agent2:
+    <<: *consul-agent
+    volumes:
+      - ./consul_data/a2:/consul/data
+    networks:
+      consul-demo:
+        ipv4_address: 172.28.1.2
+
+  agent3:
+    <<: *consul-agent
+    volumes:
+      - ./consul_data/a3:/consul/data
+    networks:
+      consul-demo:
+        ipv4_address: 172.28.1.3
+
+  server1: &consul-server
+    <<: *consul-agent
+    command: "agent -server -retry-join bootstrap -client 0.0.0.0"
+    volumes:
+      - ./consul_data/s1:/consul/data
+    networks:
+      consul-demo:
+        ipv4_address: 172.28.1.4
+
+  server2:
+    <<: *consul-server
+    volumes:
+      - ./consul_data/s2:/consul/data
+    networks:
+      consul-demo:
+        ipv4_address: 172.28.1.5
+
+  bootstrap:
+    <<: *consul-agent
+    ports:
+      - "8400:8400"
+      - "8500:8500"
+      - "8600:8600"
+      - "8600:8600/udp"
+    command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
+    volumes:
+      - ./consul_data/s:/consul/data
+    networks:
+      consul-demo:
+        ipv4_address: 172.28.1.6
+
+networks:
+  consul-demo:
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16

@@ -1,0 +1,9 @@
+{
+  "Nethium": {
+    "Consul": {
+      "Prefix": "settings/",
+      "Separator": "/",
+      "WaitTime": "50"
+    }
+  }
+}

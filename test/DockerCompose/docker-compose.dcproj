@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" Sdk="Microsoft.Docker.Sdk">
+  <PropertyGroup Label="Globals">
+    <ProjectVersion>2.1</ProjectVersion>
+    <DockerTargetOS>Linux</DockerTargetOS>
+    <ProjectGuid>bfad6892-d813-45ef-9355-edd4c3c16e1e</ProjectGuid>
+    <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
+    <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/api/values</DockerServiceUrl>
+    <DockerServiceName>nethium.consul.test.web</DockerServiceName>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="certs\cert.pem" />
+    <None Include="docker-compose.override.yml">
+      <DependentUpon>docker-compose.yml</DependentUpon>
+    </None>
+    <None Include="docker-compose.yml" />
+    <None Include="server_configs\s1.json" />
+    <None Include="server_configs\s4.json" />
+    <None Include="server_configs\s3.json" />
+    <None Include="server_configs\s2.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="consul_data\" />
+  </ItemGroup>
+</Project>

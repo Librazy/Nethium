@@ -1,0 +1,21 @@
+﻿@model Nethium.Demo.Abstraction.AggregateResult
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>title</title>
+</head>
+<body>
+<div>
+    @(string.Format((string) ViewData["addFormat"], Context.Request.Query["a"][0] ?? "2", Context.Request.Query["b"][0] ?? "3", @Model.AddResult))
+</div>
+<div>
+    @(string.Format((string) ViewData["mulFormat"], Context.Request.Query["a"][0] ?? "2", Context.Request.Query["b"][0] ?? "3", @Model.MulResult))
+</div>
+</body>
+</html>

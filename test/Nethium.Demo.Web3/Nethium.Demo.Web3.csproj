@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>6c85f9ca-22e7-4905-807b-200b5633e225</UserSecretsId>
+    <DockerComposeProjectPath>..\DockerCompose\docker-compose.dcproj</DockerComposeProjectPath>
+    <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Nethium.Core\src\Nethium.Core.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Abstraction\Nethium.Demo.Abstraction.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Service.Aggregate\Nethium.Demo.Service.Aggregate.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Stub\Nethium.Demo.Stub.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Service.ToRoman\Nethium.Demo.Service.ToRoman.csproj" />
+  </ItemGroup>
+
+</Project>

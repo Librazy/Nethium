@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="NSwag.AspNetCore" Version="12.2.5" />
+    <PackageReference Include="NSwag.CodeGeneration.CSharp" Version="12.2.5" />
+    <PackageReference Include="NSwag.SwaggerGeneration.AspNetCore" Version="12.2.5" />
+    <PackageReference Include="System.CodeDom" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Nethium.Authentication\src\Nethium.Authentication.csproj" />
+  </ItemGroup>
+
+</Project>

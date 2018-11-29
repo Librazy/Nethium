@@ -1,0 +1,13 @@
+{
+  "Nethium": {
+    "ServerId": "server-1",
+    "BaseUrl": "http://web1",
+    "Consul": {
+      "Prefix": "settings/",
+      "Separator": "/",
+      "Watch": "settings/version",
+      "Address": "http://agent1:8500/",
+      "WaitTime": "50"
+    }
+  }
+}

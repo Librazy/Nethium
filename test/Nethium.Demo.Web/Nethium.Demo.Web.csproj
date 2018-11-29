@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.2</TargetFramework>
+    <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <UserSecretsId>0d00587d-b392-4a2c-b654-a5e769afb131</UserSecretsId>
+    <DockerComposeProjectPath>..\DockerCompose\docker-compose.dcproj</DockerComposeProjectPath>
+    <LangVersion>8.0</LangVersion>
+    <NullableContextOptions>enable</NullableContextOptions>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.7.8" />
+    <PackageReference Include="NSwag.SwaggerGeneration.AspNetCore" Version="12.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Nethium.Core\src\Nethium.Core.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Abstraction\Nethium.Demo.Abstraction.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Service.CalcToRoman\Nethium.Demo.Service.CalcToRoman.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Service.Store\Nethium.Demo.Service.Store.csproj" />
+    <ProjectReference Include="..\Nethium.Demo.Stub\Nethium.Demo.Stub.csproj" />
+  </ItemGroup>
+
+</Project>
